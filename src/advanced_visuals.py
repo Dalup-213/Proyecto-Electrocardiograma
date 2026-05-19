@@ -431,7 +431,14 @@ def show_metrics_comparison(metrics1: Dict, metrics2: Dict, labels: Tuple[str, s
         
         data.append([metric_name, f"{val1:.2f}", f"{val2:.2f}"])
     
-    df = pd.DataFrame(data, columns=['Métrica', labels[0], labels[1]])
+        col1 = labels[0]
+        col2 = labels[1]
+
+            # Evitar nombres duplicados
+        if col1 == col2:
+            col2 = f"{col2} (Comparación)"
+
+        df = pd.DataFrame(data, columns=['Métrica', col1, col2])
     
     st.markdown("### 📊 Tabla Comparativa de Métricas")
     st.dataframe(df, use_container_width=True, hide_index=True)
