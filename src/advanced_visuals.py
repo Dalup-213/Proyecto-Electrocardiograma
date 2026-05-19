@@ -7,8 +7,10 @@ EXTENSIONES para mejorar interfaz sin romper el flujo principal
 import streamlit as st
 import numpy as np
 import plotly.graph_objects as go
+import streamlit.components.v1 as components
 from typing import Dict, Tuple
 from src.ui_styles import COLORS
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # MAPEO DE DIAGNÓSTICOS
@@ -255,44 +257,46 @@ def plot_annotated_heartbeat(heartbeat: np.ndarray,
 # ═══════════════════════════════════════════════════════════════════════════
 
 def render_diagnosis_panel(diagnosis: str):
-    """
-    Renderiza un panel con información del diagnóstico
-    
-    Args:
-        diagnosis: Código de diagnóstico ('norm', 'MI', etc.)
-    """
+
     config = DIAGNOSIS_CONFIG.get(diagnosis, DIAGNOSIS_CONFIG['norm'])
-    
-    # Color según estado
+
     color = config['color']
-    
-    # Encabezado
-    st.markdown(f"""
-    <div style="background: linear-gradient(135deg, {color}20 0%, {color}05 100%);
-                border: 2px solid {color};
-                border-radius: 12px;
-                padding: 20px;
-                margin: 20px 0;">
-        
-        <h2 style="color: {color}; margin-top: 0;">
-            {config['emoji']} {config['estado']}
-        </h2>
-        
-        <p style="color: #E0E0E0; font-size: 14px; margin: 10px 0;">
-            {config['explicacion']}
-        </p>
-        
-        <p style="color: {color}; font-weight: bold; margin: 10px 0;">
-            🎯 NIVEL DE RIESGO: <span style="font-size: 16px;">{config['riesgo']}</span>
-        </p>
+
+    html_content = f"""
+    <div style="
+        background: linear-gradient(135deg, {color}20 0%, {color}08 100%);
+        border: 2px solid {color};
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 25px;
+    ">
+
+    <h2 style="color:{color}; margin-top:0;">
+    {config['emoji']} {config['estado']}
+    </h2>
+
+    <p style="color:#E0E0E0; font-size:15px;">
+    {config['explicacion']}
+    </p>
+
+    <p style="
+        color:{color};
+        font-weight:bold;
+        font-size:16px;
+    ">
+    🎯 NIVEL DE RIESGO: {config['riesgo']}
+    </p>
+
     </div>
-    """, unsafe_allow_html=True)
-    
-    # Alertas si existen
+    """
+
+    st.markdown(html_content, unsafe_allow_html=True)
+
     if config['alertas']:
-        st.markdown("### ⚠️ Hallazgos Clave:")
+        st.markdown("### ⚠️ Hallazgos Clínicos")
+
         for alerta in config['alertas']:
-            st.markdown(f"• {alerta}")
+            st.warning(alerta)
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FUNCIÓN: Comparación de dos pacientes

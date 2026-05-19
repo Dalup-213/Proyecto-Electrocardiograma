@@ -1,10 +1,3 @@
-# app.py - VERSIÓN MEJORADA
-"""
-ECG Analyzer Pro - Aplicación Principal MEJORADA
-Sistema profesional de análisis electrocardiográfico
-CAMBIOS: Agregar nuevas funciones sin romper el flujo existente
-"""
-
 import streamlit as st
 import numpy as np
 import pandas as pd
@@ -23,20 +16,22 @@ from src.feature_extractor import FeatureExtractor
 from src.report_generator import ReportGenerator
 
 # NUEVA IMPORTACIÓN: Funciones avanzadas de visualización
+# NUEVA IMPORTACIÓN: Funciones avanzadas de visualización
 try:
-    from src.ui_styles import (
+    from src.advanced_visuals import (
         plot_annotated_heartbeat,
         render_diagnosis_panel,
         plot_patient_comparison,
         show_metrics_comparison,
-        show_metric_tooltip,
-        DIAGNOSIS_CONFIG
+        DIAGNOSIS_CONFIG,
+        show_metric_tooltip
     )
-    ADVANCED_VISUALS_AVAILABLE = True
-except ImportError:
-    ADVANCED_VISUALS_AVAILABLE = False
-    print("⚠️ advanced_visuals no disponible, usando modo básico")
 
+    ADVANCED_VISUALS_AVAILABLE = True
+
+except ImportError as e:
+    ADVANCED_VISUALS_AVAILABLE = False
+    print(f"⚠️ advanced_visuals no disponible: {e}")
 # ═══════════════════════════════════════════════════════════════════════════
 # CONFIGURACIÓN DE SESIÓN
 # ═══════════════════════════════════════════════════════════════════════════
@@ -542,26 +537,43 @@ def main():
                                 try:
                                     idx_comp = comparison_options.index(selected_comp)
                                     comp_record = st.session_state.filtered_records[idx_comp]
-                                    
+
                                     # Descargar y procesar
                                     ecg_comp, fs_comp = st.session_state.data_manager.download_signal(
                                         comp_record['filename_hr']
                                     )
-                                    
+
                                     processor_comp = ECGProcessor(sampling_rate=fs_comp)
                                     results_comp = processor_comp.process_complete(ecg_comp)
-                                    
+
+                                    # Extraer características del paciente de comparación
+                                    if results_comp['heartbeats'].shape[0] > 0:
+
+                                        extractor_comp = FeatureExtractor(
+                                            sampling_rate=fs_comp,
+                                            sex=comp_record['sex']
+                                        )
+
+                                        features_comp = extractor_comp.extract_all_features(
+                                            results_comp['heartbeats'][0],
+                                            int(0.2 * fs_comp)
+                                        )
+
+                                    else:
+                                        features_comp = {}
+
                                     # Guardar para comparación
                                     st.session_state.comparison_patient = {
                                         'ecg': ecg_comp,
                                         'results': results_comp,
                                         'record': comp_record,
+                                        'features': features_comp,
                                         'fs': fs_comp
                                     }
-                                    
+
                                     st.success("✓ Paciente cargado para comparación")
                                     st.rerun()
-                                    
+
                                 except Exception as e:
                                     st.error(f"Error: {str(e)}")
             
@@ -596,9 +608,9 @@ def main():
                 comp_metrics2 = {
                     'hr': comp['results']['heart_rate'],
                     'rr_metrics': comp['results']['rr_metrics'],
-                    **features  # Aquí irían features del segundo paciente
+                    **comp['features']
                 }
-                
+                    
                 show_metrics_comparison(
                     comp_metrics1,
                     comp_metrics2,
