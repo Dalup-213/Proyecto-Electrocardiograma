@@ -13,7 +13,7 @@ COLORS = {
     'danger': '#E63946',       # Rojo alerta
     'warning': '#F77F00',      # Naranja advertencia
     'success': '#06D6A0',      # Verde éxito
-    'dark_bg': '#0F1419',      # Fondo oscuro
+    'dark_bg': "#000F66",      # Fondo oscuro
     'card_bg': '#1A1E2E',      # Fondo tarjeta
     'text_primary': '#E0E0E0', # Texto principal
     'text_secondary': '#A0A0A0', # Texto secundario
@@ -24,7 +24,6 @@ def setup_page_style():
     """Configura el estilo global de la página"""
     st.set_page_config(
         page_title="🏥 ECG Analyzer Pro",
-        page_icon="❤️",
         layout="wide",
         initial_sidebar_state="expanded",
         menu_items=None
