@@ -440,77 +440,6 @@ def main():
         
         st.markdown("---")
         
-        # ─── ALERTAS CLÍNICAS (MEJORADAS)
-        st.markdown("## 🚨 ALERTAS CLÍNICAS")
-        
-        alert_container = st.container()
-        
-        with alert_container:
-            has_alerts = False
-            
-            if features.get('qrs_pathological_q', 0):
-                st.error(
-                    "🔴 **ONDA Q PATOLÓGICA DETECTADA**\n\n"
-                    "Patrón sugiere infarto miocárdico previo o agudo. "
-                    "Requiere evaluación cardíaca urgente."
-                )
-                has_alerts = True
-            
-            if features.get('st_st_elevation_flag', 0):
-                st.error(
-                    "🔴 **ELEVACIÓN ST SIGNIFICATIVA**\n\n"
-                    "Patrón altamente sugestivo de INFARTO MIOCÁRDICO AGUDO. "
-                    "⚠️ REQUIERE ATENCIÓN INMEDIATA"
-                )
-                has_alerts = True
-            
-            if features.get('st_st_depression_flag', 0):
-                st.warning(
-                    "⚠️ **DEPRESIÓN ST DETECTADA**\n\n"
-                    "Patrón sugestivo de isquemia miocárdica. "
-                    "Requiere evaluación clínica adicional."
-                )
-                has_alerts = True
-            
-            if features.get('qt_qt_prolonged_flag', 0):
-                st.warning(
-                    "⚠️ **INTERVALO QT PROLONGADO**\n\n"
-                    "Aumentado riesgo de arritmias ventriculares. "
-                    "Revisar medicamentos y electrolitos."
-                )
-                has_alerts = True
-            
-            if features.get('t_t_inverted', 0):
-                st.warning(
-                    "⚠️ **INVERSIÓN DE ONDA T DETECTADA**\n\n"
-                    "Patrón sugestivo de isquemia o infarto. "
-                    "Requiere correlación clínica."
-                )
-                has_alerts = True
-            
-            if features.get('p_p_absent', 0):
-                st.warning(
-                    "⚠️ **ONDA P AUSENTE O MUY PEQUEÑA**\n\n"
-                    "Posible fibrilación auricular u otro arritmia. "
-                    "Considerar ECG de 12 derivaciones."
-                )
-                has_alerts = True
-            
-            if features.get('qrs_qrs_duration', 0) > 120:
-                st.warning(
-                    "⚠️ **QRS PROLONGADO (>120ms)**\n\n"
-                    "Sugestivo de bloqueo de rama. "
-                    "Requiere evaluación adicional."
-                )
-                has_alerts = True
-            
-            if not has_alerts:
-                st.success(
-                    "✅ **REGISTRO NORMAL**\n\n"
-                    "No se detectaron hallazgos patológicos significativos."
-                )
-        
-        st.markdown("---")
         
         # ─── NUEVA SECCIÓN: COMPARACIÓN DE PACIENTES
         if ADVANCED_VISUALS_AVAILABLE:
@@ -646,9 +575,7 @@ def main():
                 mime="text/plain"
             )
         
-        with col2:
-            risk_level, risk_desc = reporter.get_risk_classification(features)
-            st.info(f"**Nivel de Riesgo:** {risk_level}\n\n{risk_desc}")
+        
     
     else:
         # Si no hay datos cargados
