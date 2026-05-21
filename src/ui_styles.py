@@ -23,7 +23,7 @@ COLORS = {
 def setup_page_style():
     """Configura el estilo global de la página"""
     st.set_page_config(
-        page_title="🏥 ECG Analyzer Pro",
+        page_title=" ECG Analyzer",
         layout="wide",
         initial_sidebar_state="expanded",
         menu_items=None
@@ -166,7 +166,7 @@ def render_header():
     
     with col1:
         st.markdown("""
-        # ❤️ ECG Analyzer Pro
+        #  ECG Analyzer
         ### Sistema Inteligente de Análisis Electrocardiográfico
         """)
     

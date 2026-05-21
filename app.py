@@ -116,7 +116,7 @@ def plot_heartbeat_average(heartbeats):
     ))
     
     fig.update_layout(
-        title="<b>❤️ Latido Promedio</b>",
+        title="<b>Latido Promedio</b>",
         xaxis_title="Muestras",
         yaxis_title="Amplitud (mV)",
         template="plotly_dark",
@@ -198,14 +198,14 @@ def main():
         
         col1, col2 = st.columns(2)
         with col1:
-            st.metric("📊 Total Registros", stats['total_records'])
+            st.metric(" Total Registros", stats['total_records'])
         with col2:
-            st.metric("👥 Edad Promedio", f"{stats['age_mean']:.0f} años")
+            st.metric(" Edad Promedio", f"{stats['age_mean']:.0f} años")
         
         st.markdown("---")
         
         # MEJORA: Filtros mejorados con grupos de edad
-        st.subheader("⚙️ Filtros de Búsqueda")
+        st.subheader(" Filtros de Búsqueda")
         
         # Nuevo: Grupo de edad predefinido
         age_groups = st.session_state.data_manager.get_age_groups()
@@ -223,7 +223,7 @@ def main():
                 age_max = st.slider("Edad máx:", 0, 100, 80, key="age_max")
         else:
             age_min, age_max = age_groups[selected_age_group]
-            st.info(f"📅 Rango seleccionado: {age_min}-{age_max} años")
+            st.info(f"Rango seleccionado: {age_min}-{age_max} años")
         
         col1, col2 = st.columns(2)
         with col1:
@@ -233,7 +233,7 @@ def main():
             diagnosis = st.selectbox("Diagnóstico:", ["Todos"] + diagnoses)
         
         # Botón de búsqueda
-        if st.button("🔎 Buscar Pacientes", use_container_width=True):
+        if st.button(" Buscar Pacientes", use_container_width=True):
             sex_filter = None if sex == "Todos" else sex
             diag_filter = None if diagnosis == "Todos" else diagnosis
             
@@ -254,7 +254,7 @@ def main():
         
         # Seleccionar paciente
         if hasattr(st.session_state, 'filtered_records') and st.session_state.filtered_records:
-            st.subheader("👤 Seleccionar Paciente")
+            st.subheader(" Seleccionar Paciente")
             
             patient_options = [
                 f"Paciente {r['patient_id']} - {r['age']}a {r['sex']} - {r['diagnostic']}"
@@ -267,7 +267,7 @@ def main():
                 idx = patient_options.index(selected)
                 selected_record = st.session_state.filtered_records[idx]
                 
-                if st.button("📥 Cargar Señal ECG", use_container_width=True):
+                if st.button(" Cargar Señal ECG", use_container_width=True):
                     with st.spinner("Descargando y procesando..."):
                         try:
                             # Descargar señal
@@ -303,7 +303,7 @@ def main():
                             st.rerun()
                             
                         except Exception as e:
-                            st.error(f"❌ Error: {str(e)}")
+                            st.error(f" Error: {str(e)}")
     
     # ───────────────────────────────────────────────────────────────────────
     # ÁREA PRINCIPAL
@@ -322,20 +322,20 @@ def main():
             render_diagnosis_panel(diagnosis)
         
         # ─── RESUMEN CLÍNICO
-        st.markdown("## 📋 RESUMEN CLÍNICO")
+        st.markdown("##  RESUMEN CLÍNICO")
         
         col1, col2, col3, col4 = st.columns(4)
         
         with col1:
             st.metric(
-                "❤️ Frecuencia Cardíaca",
+                " Frecuencia Cardíaca",
                 f"{results['heart_rate']:.0f}",
                 "BPM"
             )
         
         with col2:
             st.metric(
-                "📊 Picos R",
+                " Picos R",
                 len(results['r_peaks']),
                 "detectados"
             )
@@ -343,7 +343,7 @@ def main():
         with col3:
             sdnn = results['rr_metrics'].get('sdnn', 0)
             st.metric(
-                "📈 SDNN",
+                " SDNN",
                 f"{sdnn:.1f}",
                 "ms"
             )
@@ -351,7 +351,7 @@ def main():
         with col4:
             rmssd = results['rr_metrics'].get('rmssd', 0)
             st.metric(
-                "💓 RMSSD",
+                " RMSSD",
                 f"{rmssd:.1f}",
                 "ms"
             )
@@ -359,14 +359,14 @@ def main():
         st.markdown("---")
         
         # ─── VISUALIZACIONES (MEJORADAS)
-        st.markdown("## 📊 GRÁFICOS INTERACTIVOS")
+        st.markdown("## GRÁFICOS INTERACTIVOS")
         
         tab1, tab2, tab3, tab4, tab5 = st.tabs([
-            "🔷 ECG Completo",
-            "❤️ Latido Anotado",
-            "📈 Intervalos RR",
-            "🔬 Análisis ST/QT",
-            "📋 Características"
+            " ECG Completo",
+            " Latido Anotado",
+            " Intervalos RR",
+            " Análisis ST/QT",
+            " Características"
         ])
         
         with tab1:
@@ -403,17 +403,17 @@ def main():
                 # Aquí pueden ir gráficos de ST y QT
                 col1, col2 = st.columns(2)
                 with col1:
-                    st.markdown("### 📊 Segmento ST")
+                    st.markdown("### Segmento ST")
                     st.write(f"**Elevación:** {features.get('st_st_elevation_j', 0):.1f} µV")
-                    st.write(f"**Estado:** {'⚠️ Elevado' if features.get('st_st_elevation_flag', 0) else '✓ Normal'}")
+                    st.write(f"**Estado:** {' Elevado' if features.get('st_st_elevation_flag', 0) else '✓ Normal'}")
                 
                 with col2:
-                    st.markdown("### ⏱️ Intervalo QT")
+                    st.markdown("###  Intervalo QT")
                     st.write(f"**QT:** {features.get('qt_qt_duration', 0):.1f} ms")
                     st.write(f"**QTc:** {features.get('qt_qtc_duration', 0):.1f} ms")
         
         with tab5:
-            st.markdown("### 🔍 CARACTERÍSTICAS ELECTROCARDIOGRÁFICAS")
+            st.markdown("###  CARACTERÍSTICAS ELECTROCARDIOGRÁFICAS")
             
             col1, col2, col3 = st.columns(3)
             
@@ -422,14 +422,14 @@ def main():
                 st.write(f"**Duración:** {features.get('qrs_qrs_duration', 0):.1f} ms")
                 st.write(f"**Amplitud R:** {features.get('qrs_r_amplitude', 0):.3f} mV")
                 st.write(f"**Amplitud Q:** {features.get('qrs_q_amplitude', 0):.3f} mV")
-                st.write(f"**Q Patológica:** {'🔴 SÍ' if features.get('qrs_pathological_q', 0) else '✓ No'}")
+                st.write(f"**Q Patológica:** {' SÍ' if features.get('qrs_pathological_q', 0) else '✓ No'}")
             
             with col2:
                 st.markdown("#### ST & T")
                 st.write(f"**Elevación ST:** {features.get('st_st_elevation_j', 0):.1f} µV")
-                st.write(f"**Depresión:** {'🔴 SÍ' if features.get('st_st_depression_flag', 0) else '✓ No'}")
+                st.write(f"**Depresión:** {' SÍ' if features.get('st_st_depression_flag', 0) else '✓ No'}")
                 st.write(f"**Amplitud T:** {features.get('t_t_amplitude', 0):.3f} mV")
-                st.write(f"**Inversión T:** {'⚠️ SÍ' if features.get('t_t_inverted', 0) else '✓ No'}")
+                st.write(f"**Inversión T:** {' SÍ' if features.get('t_t_inverted', 0) else '✓ No'}")
             
             with col3:
                 st.markdown("#### QT & P")
@@ -443,7 +443,7 @@ def main():
         
         # ─── NUEVA SECCIÓN: COMPARACIÓN DE PACIENTES
         if ADVANCED_VISUALS_AVAILABLE:
-            st.markdown("## 🔄 COMPARACIÓN DE PACIENTES")
+            st.markdown("##  COMPARACIÓN DE PACIENTES")
             
             col1, col2 = st.columns([3, 1])
             with col1:
@@ -462,7 +462,7 @@ def main():
                                 key="comparison_select"
                             )
                             
-                            if st.button("📥 Cargar para Comparación"):
+                            if st.button(" Cargar para Comparación"):
                                 try:
                                     idx_comp = comparison_options.index(selected_comp)
                                     comp_record = st.session_state.filtered_records[idx_comp]
@@ -528,7 +528,7 @@ def main():
                 st.plotly_chart(fig_comp, use_container_width=True)
                 
                 # Tabla comparativa
-                st.markdown("### 📊 Comparación de Métricas")
+                st.markdown("###  Comparación de Métricas")
                 comp_metrics1 = {
                     'hr': results['heart_rate'],
                     'rr_metrics': results['rr_metrics'],
@@ -549,7 +549,7 @@ def main():
         st.markdown("---")
         
         # ─── REPORTE CLÍNICO
-        st.markdown("## 📄 REPORTE CLÍNICO")
+        st.markdown("## REPORTE CLÍNICO")
         
         reporter = ReportGenerator(
             patient_id=str(patient['patient_id']),
@@ -580,20 +580,20 @@ def main():
     else:
         # Si no hay datos cargados
         st.info(
-            "👈 **Usa el panel lateral para:**\n\n"
-            "1. 🔍 Buscar pacientes por edad, sexo y diagnóstico\n"
-            "2. 📥 Cargar la señal ECG\n\n"
+            " **Usa el panel lateral para:**\n\n"
+            "1.  Buscar pacientes por edad, sexo y diagnóstico\n"
+            "2.  Cargar la señal ECG\n\n"
             "El sistema descargará automáticamente los datos de PhysioNet PTB-XL"
         )
         
         st.markdown("---")
         
         st.markdown("""
-        ### 🏥 Acerca de ECG Analyzer Pro
+        ###  Acerca de ECG Analyzer
         
         **Sistema profesional de análisis electrocardiográfico** basado en IA.
         
-        #### ✨ Características:
+        ####  Características:
         - ✓ Análisis automático de señales ECG
         - ✓ Detección inteligente de arritmias
         - ✓ Identificación de patrones de infarto
@@ -603,12 +603,12 @@ def main():
         - ✓ Comparación entre pacientes
         - ✓ Visualización anotada de latidos
         
-        #### 📊 Tecnología:
+        ####  Tecnología:
         - Python, Streamlit, Plotly
         - Procesamiento digital de señales (SciPy, NumPy)
         - Base de datos: PhysioNet PTB-XL
         
-        #### ⚠️ Descargo de Responsabilidad:
+        ####  Descargo de Responsabilidad:
         *Este sistema es **informativo** y **NO constituye diagnóstico médico**.
         Los resultados deben ser validados por un cardiólogo certificado.*
         """)

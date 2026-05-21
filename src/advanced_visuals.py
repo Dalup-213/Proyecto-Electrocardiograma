@@ -1,6 +1,6 @@
 # src/advanced_visuals.py
 """
-Funciones avanzadas de visualización para ECG Analyzer Pro
+Funciones avanzadas de visualización para ECG Analyzer
 EXTENSIONES para mejorar interfaz sin romper el flujo principal
 """
 

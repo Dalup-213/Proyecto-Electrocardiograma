@@ -148,7 +148,7 @@ class ReportGenerator:
 ┌─ CONCLUSIONES Y RECOMENDACIONES ───────────────────────────────────────────┐
 │
 │  El análisis electrocardiográfico ha sido realizado automáticamente por el
-│  sistema ECG Analyzer Pro. Los resultados deben ser validados por un
+│  sistema ECG Analyzer. Los resultados deben ser validados por un
 │  cardiólogo experimentado antes de tomar decisiones clínicas.
 │
 │  Recomendaciones:
@@ -161,7 +161,7 @@ class ReportGenerator:
 
 ┌─ INFORMACIÓN TÉCNICA ──────────────────────────────────────────────────────┐
 │
-│  Software:              ECG Analyzer Pro v1.0
+│  Software:              ECG Analyzer v1.0
 │  Frecuencia muestreo:   250 Hz
 │  Filtro:                Pasa banda 0.5-40 Hz (Butterworth, orden 4)
 │  Método detección R:    Análisis de picos con prominencia
